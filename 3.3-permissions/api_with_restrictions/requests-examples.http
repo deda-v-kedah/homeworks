@@ -1,6 +1,10 @@
 # примеры API-запросов
 
-@baseUrl = https://localhost:8000/api
+@baseUrl = http://localhost:8000/api
+
+@admin_token = 44cd22c2c1d76326c79127478f7931fe24a27146
+@deda_token = e22773f219c3671ebc3c442e1b801da6a7c186ee
+@sasha_token = 419897a9ae603c0f443586095cfbfc5fcdfe2f92
 
 # получение объявлений
 GET {{baseUrl}}/advertisements/
@@ -11,25 +15,39 @@ Content-Type: application/json
 # создание объявления
 POST {{baseUrl}}/advertisements/
 Content-Type: application/json
-Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
+Authorization: Token {{sasha_token}}
 
 {
-  "title": "Шкаф IKEA",
-  "description": "Срочно"
+  "title": "fgdgdfg",
+  "description": "dfgdslkigfiosdofpsadopfoisdjufoisdf"
 }
 
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/1/
+PATCH {{baseUrl}}/advertisements/90/
 Content-Type: application/json
-Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
+Authorization: Token {{deda_token}}
 
 {
   "status": "CLOSED"
 }
 
 ###
+
+
+# Смена обьявления
+PATCH {{baseUrl}}/advertisements/90/
+Content-Type: application/json
+Authorization: Token {{sasha_token}}
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+
 
 # фильтрация по создателю
 GET {{baseUrl}}/advertisements/?creator=3
@@ -40,3 +58,25 @@ Content-Type: application/json
 # фильтрация по дате
 GET {{baseUrl}}/advertisements/?created_at_before=2020-10-01
 Content-Type: application/json
+
+
+###
+
+
+
+# Только открытые
+GET {{baseUrl}}/advertisements/?status=OPEN
+
+###
+
+
+# Только закрытые
+GET {{baseUrl}}/advertisements/?status=CLOSED
+
+###
+
+
+
+# Удаление не авторизованным
+
+DELETE {{baseUrl}}/advertisements/4/
